@@ -97,7 +97,7 @@ extension TriviaPiece: CustomDebugStringConvertible {
 /// A collection of leading or trailing trivia. This is the main data structure
 /// for thinking about trivia.
 public struct Trivia {
-  let pieces: [TriviaPiece]
+  private(set) var pieces: [TriviaPiece]
 
   /// Creates Trivia with the provided underlying pieces.
   public init(pieces: [TriviaPiece]) {
@@ -115,6 +115,21 @@ public struct Trivia {
     copy.append(piece)
     return Trivia(pieces: copy)
   }
+    
+    public mutating func removeNewLines() {
+        var tmp = [TriviaPiece]()
+        for item in self.pieces {
+            if case .lineComment(_) = item {
+            } else if case .blockComment(_) = item {
+            } else if case .docLineComment(_) = item {
+            } else if case .docBlockComment(_) = item {
+            } else if case .garbageText(_) = item {
+            } else {
+                tmp.append(item)
+            }
+        }
+        self.pieces = tmp
+    }
 
   public var sourceLength: SourceLength {
     return pieces.map({ $0.sourceLength }).reduce(.zero, +)

@@ -5393,7 +5393,7 @@ open class SyntaxRewriter {
 
 #endif
 
-  private func visitChildren<SyntaxType: SyntaxProtocol>(
+  open func visitChildren<SyntaxType: SyntaxProtocol>(
     _ node: SyntaxType
   ) -> SyntaxType {
     // Walk over all children of this node and rewrite them. Don't store any 
